@@ -1,12 +1,17 @@
 import axios, { AxiosInstance } from "axios";
 import { baseUrl } from "./endpoint";
-import { LocalStorageType } from "../enums/authEnum";
+import { LocalStorageKey } from "../enums/authEnum";
 
-const getToken = () => localStorage.getItem(LocalStorageType.token);
+const getToken = () => localStorage.getItem(LocalStorageKey.token);
 export const getAuthorizationHeader = () => `Bearer ${getToken()}`;
 
 const ApiClient: AxiosInstance = axios.create({
-  baseURL: baseUrl
+  baseURL: baseUrl,
+  headers: {
+    Accept: 'application/json',
+    "Content-Type": 'application/json',
+    Authorization: getAuthorizationHeader()
+  }
 });
 
 export default ApiClient;

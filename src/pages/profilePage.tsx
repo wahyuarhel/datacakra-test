@@ -1,8 +1,19 @@
-import React from 'react'
 
 function ProfilePage() {
+
+
   return (
-    <div>ProfilePage</div>
+    <div>
+      ProfilePage
+      ProfilePage
+      ProfilePage
+      ProfilePage
+      ProfilePage
+      ProfilePage
+      <code>
+        {/* {JSON.stringify(destination.data.data)} */}
+      </code>
+    </div>
   )
 }
 

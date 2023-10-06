@@ -1,19 +1,29 @@
 import { useEffect, useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { useAppSelector } from '../redux/store/hook';
+import { Link, useNavigate } from 'react-router-dom';
+import { LocalStorageKey, LoginResponseStatus } from '../enums/authEnum';
+import { setAuthorized } from '../redux/slice/authSlice';
+import { useAppDispatch, useAppSelector } from '../redux/store/hook';
 import LoginModal from './loginModal';
-import { LoginResponseStatus } from '../enums/authEnum';
-import { Link, useNavigate, useNavigation, useRoutes } from 'react-router-dom';
 const NavbarApp = () => {
   const navigate = useNavigate()
-  const { authResponseStatus, authorized } = useAppSelector(state => state.auth)
+  const dispatch = useAppDispatch()
+  const { authResponseData } = useAppSelector(state => state.auth)
   const [openModal, setOpenModal] = useState<boolean>(false)
+  const authorization = localStorage.getItem(LocalStorageKey.token) !== null
 
   useEffect(() => {
-    if (authResponseStatus === LoginResponseStatus.pending) {
+    if (authorization) {
+      dispatch(setAuthorized(true))
+    }
+  }, [authorization, dispatch])
+
+  useEffect(() => {
+    if (authResponseData.status) {
       setOpenModal(false)
     }
-  }, [authResponseStatus])
+  }, [authResponseData.status])
+
 
   function handleModal() {
     setOpenModal((prev) => !prev)
@@ -42,17 +52,17 @@ const NavbarApp = () => {
           </div>
           {/* //*menu for desktop view */}
           <div className='hidden md:flex items-center gap-5'>
-            {authorized ?
+            {authorization ?
               <>
                 <Link to='/'>
                   <p>Home</p>
                 </Link>
-                <Link to='/profile'>
-                  <p>Profile</p>
+                <Link to='/destination'>
+                  <p>Destination</p>
                 </Link>
               </> : null
             }
-            {!authorized ?
+            {!authorization ?
               <p className='cursor-pointer' onClick={handleModal}>Login</p>
               :
               <p className='cursor-pointer' onClick={handleLogOut}>Logout</p>

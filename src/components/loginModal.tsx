@@ -3,7 +3,7 @@ import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader
 import { useEffect, useState } from "react";
 import { IoEye, IoEyeOff } from 'react-icons/io5';
 import { loginAction } from "../redux/action/authAction";
-import { useAppDispatch } from "../redux/store/hook";
+import { useAppDispatch, useAppSelector } from "../redux/store/hook";
 import { Utils } from "../utils/utlis";
 
 interface LoginModalProp {
@@ -17,30 +17,25 @@ const LoginModal = (props: LoginModalProp) => {
     onClose,
   } = props
   const dispatch = useAppDispatch()
+  const { authResponseData } = useAppSelector(state => state.auth)
 
   const [email, setEmail] = useState<string>('')
-  const [emailError, setEmailError] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   useEffect(() => {
     if (!isOpen) {
       setEmail('')
-      setEmailError('')
     }
   }, [isOpen])
+  useEffect(() => {
+
+  }, [authResponseData])
 
   const toggleVisibility = () => setShowPassword(!showPassword);
 
   function onEmailChanged(e: React.ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value)
-    if (!Utils.validateEmail(email)) {
-      setEmailError('email address invalid')
-    }
-    else {
-      setEmailError('')
-    }
-
   }
   function onPasswordChanged(e: React.ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value)
@@ -49,12 +44,15 @@ const LoginModal = (props: LoginModalProp) => {
   async function handleLoginSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (isFormValid) {
-      await dispatch(loginAction({ email: email, password: password }))
+      const response = await dispatch(loginAction({ email: email, password: password }))
+      return response
     }
     else {
       console.log('login form invalid')
     }
   }
+
+  console.log('authResponseData: ', authResponseData)
 
   const isFormValid: boolean = email !== '' && password !== '';
 
@@ -82,7 +80,6 @@ const LoginModal = (props: LoginModalProp) => {
                 labelPlacement="outside"
                 className="mb-3"
                 isClearable
-                errorMessage={emailError}
               />
               <Input
                 isRequired={password === ''}
@@ -104,6 +101,13 @@ const LoginModal = (props: LoginModalProp) => {
                 variant="bordered"
                 labelPlacement="outside"
               />
+              {authResponseData !== undefined ?
+                <div>
+                  {authResponseData?.errors?.email !== undefined && <p className="text-accountRed text-xs">{authResponseData.errors?.email[0]}</p>}
+                  {authResponseData?.errors?.password !== undefined && <p className="text-accountRed text-xs">{authResponseData.errors?.password[0]}</p>}
+
+                </div> : null
+              }
             </ModalBody>
             <ModalFooter>
               <Button

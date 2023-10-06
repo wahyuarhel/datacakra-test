@@ -10,7 +10,8 @@ function App() {
     <div className="">
       <header className="">
       </header>
-      <RouterProvider router={router} />
+      <RouterProvider router={router}
+      />
     </div>
   );
 }

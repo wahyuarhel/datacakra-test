@@ -1,14 +1,13 @@
 import { Button } from '@nextui-org/react';
-import { useAppSelector } from '../redux/store/hook';
+import { useEffect } from 'react';
 import LoadingModal from '../components/loadingModal';
 import { LoginResponseStatus } from '../enums/authEnum';
-import { useEffect } from 'react';
+import { useAppSelector } from '../redux/store/hook';
 
 const HomePage = () => {
   const { authResponseStatus } = useAppSelector(state => state.auth)
-  useEffect(() => {
+  useEffect(() => { }, [authResponseStatus])
 
-  }, [authResponseStatus])
   const Section1 = () => {
     return (
       <div className='bg-[url(https://www.visa.co.id/dam/VCOM/regional/ap/indonesia/global-elements/marquees/marquee-wonderful-indonesia-1600x900.jpg)] bg-no-repeat bg-cover'>

@@ -1,7 +1,9 @@
 
-export interface LoginFormType {
-  value: string
-  errorText: string
+export interface LoginResponseType {
+  data?: LoginDataType
+  status: boolean,
+  message: string,
+  errors?: AuthErrorType
 }
 export interface LoginRequestType {
   email: string,
@@ -21,8 +23,8 @@ interface LoginDataType {
   user: LoginUserDetailType
   token: string
 }
-export interface LoginResponseType {
-  data?: LoginDataType
-  status: boolean,
-  message: string,
+
+interface AuthErrorType {
+  email: string[]
+  password: string[]
 }

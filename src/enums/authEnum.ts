@@ -5,6 +5,8 @@ export enum LoginResponseStatus {
   rejected = 'loginAction/rejected'
 }
 
-export enum LocalStorageType {
-  token = 'token'
+export enum LocalStorageKey {
+  token = 'token',
+  authorized = 'authorized',
+  destinationData = 'destinationData'
 }
