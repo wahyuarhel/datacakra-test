@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
 import ApiClient from "../../api/api";
-import { LoginRequestType } from "../../types/authType";
-import axios, { AxiosError } from "axios";
 import { LocalStorageKey } from "../../enums/authEnum";
+import { LoginRequestType } from "../../types/authType";
 
 export const loginAction = createAsyncThunk(
   'loginAction',

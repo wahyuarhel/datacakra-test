@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { Link, useNavigate } from 'react-router-dom';
-import { LocalStorageKey, LoginResponseStatus } from '../enums/authEnum';
+import { LocalStorageKey } from '../enums/authEnum';
 import { setAuthorized } from '../redux/slice/authSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store/hook';
 import LoginModal from './loginModal';

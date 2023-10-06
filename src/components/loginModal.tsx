@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { IoEye, IoEyeOff } from 'react-icons/io5';
 import { loginAction } from "../redux/action/authAction";
 import { useAppDispatch, useAppSelector } from "../redux/store/hook";
-import { Utils } from "../utils/utlis";
 
 interface LoginModalProp {
   isOpen: boolean
