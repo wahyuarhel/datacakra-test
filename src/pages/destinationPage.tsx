@@ -14,7 +14,6 @@ function DestinationPage() {
     }
     getData()
   }, [dispatch])
-  console.log('destinationResponseData :', destinationResponseData.data === undefined)
 
   return (
     <>

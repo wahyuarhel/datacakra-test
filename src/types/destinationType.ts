@@ -1,10 +1,10 @@
-export interface DestinationResponseType {
+export type DestinationResponseType = {
   status: boolean;
   message: string;
   data: DataOfDestinationType;
 }
 
-export interface DataOfDestinationType {
+export type DataOfDestinationType = {
   current_page: number;
   data: DataOfDestinationDataType[];
   first_page_url: string;
@@ -20,7 +20,7 @@ export interface DataOfDestinationType {
   total: number;
 }
 
-export interface DataOfDestinationDataType {
+export type DataOfDestinationDataType = {
   id: number;
   created_at: Date;
   updated_at: Date;
@@ -32,7 +32,7 @@ export interface DataOfDestinationDataType {
   reviews: ReviewOfDestinationType[];
 }
 
-export interface ReviewOfDestinationType {
+export type ReviewOfDestinationType = {
   id: number;
   created_at: Date;
   updated_at: Date;
@@ -42,7 +42,7 @@ export interface ReviewOfDestinationType {
   destination_id: number;
 }
 
-export interface DestinationLinkType {
+export type DestinationLinkType = {
   url: null | string;
   label: string;
   active: boolean;

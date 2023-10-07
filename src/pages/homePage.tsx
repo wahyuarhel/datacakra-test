@@ -1,15 +1,15 @@
 import { Button } from '@nextui-org/react';
 import { useEffect } from 'react';
 import LoadingModal from '../components/loadingModal';
-import { LoginResponseStatus } from '../enums/authEnum';
+import { LoginResponseStatus, RegisterResponseStatus } from '../enums/authEnum';
 import { useAppSelector } from '../redux/store/hook';
 
 const HomePage = () => {
-  const { authResponseStatus } = useAppSelector(state => state.auth)
+  const { authResponseStatus, registerResponseStatus } = useAppSelector(state => state.auth)
   useEffect(() => {
 
 
-  }, [authResponseStatus])
+  }, [authResponseStatus, registerResponseStatus])
 
   const Section1 = () => {
     return (
@@ -37,7 +37,7 @@ const HomePage = () => {
   }
   return (
     <>
-      <LoadingModal isOpen={authResponseStatus === LoginResponseStatus.pending} />
+      <LoadingModal isOpen={authResponseStatus === LoginResponseStatus.pending || registerResponseStatus === RegisterResponseStatus.pending} />
       <div className=''>
         <Section1 />
         <Section2 />
