@@ -6,7 +6,10 @@ import { useAppSelector } from '../redux/store/hook';
 
 const HomePage = () => {
   const { authResponseStatus } = useAppSelector(state => state.auth)
-  useEffect(() => { }, [authResponseStatus])
+  useEffect(() => {
+
+
+  }, [authResponseStatus])
 
   const Section1 = () => {
     return (

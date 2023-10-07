@@ -8,7 +8,7 @@ import LoginModal from './loginModal';
 const NavbarApp = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { authResponseData } = useAppSelector(state => state.auth)
+  const { authResponseData, authorized } = useAppSelector(state => state.auth)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const authorization = localStorage.getItem(LocalStorageKey.token) !== null
 
@@ -34,10 +34,11 @@ const NavbarApp = () => {
     navigate('/')
     window.location.reload()
   }
+  console.log('authorized:', authorized)
   return (
     <>
       <LoginModal isOpen={openModal} onClose={handleModal} />
-      <div className='bg-navy text-white fixed top-0 w-full px-5 z-[1000]'>
+      <div className='bg-navy text-white fixed top-0 w-full px-5 z-50'>
         <div className='container m-auto flex items-center py-5'>
           <div className='flex-1'>
             <Link to='/'>
@@ -63,7 +64,7 @@ const NavbarApp = () => {
               </> : null
             }
             {!authorization ?
-              <p className='cursor-pointer' onClick={handleModal}>Login</p>
+              <p className='cursor-pointer' onClick={handleModal}>Sign in / Login</p>
               :
               <p className='cursor-pointer' onClick={handleLogOut}>Logout</p>
             }

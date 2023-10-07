@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { LoginResponseStatus } from "../../enums/authEnum"
 import { LoginResponseType } from "../../types/authType"
 import { loginAction } from "../action/authAction"
+import { stat } from "fs"
 
 
 interface AuthStateType {
@@ -33,6 +34,15 @@ const AuthSlice = createSlice({
         authResponseStatus: action.type
       }
     })
+    // builder.addCase(loginAction.fulfilled, (state, action: PayloadAction<LoginResponseType>) => {
+    //   console.log('loginAction.fulfilled :', action.payload)
+    //   return {
+    //     ...state,
+    //     authResponseStatus: action.type,
+    //     authResponseData: action.payload,
+    //     authorized: action.payload.status,
+    //   }
+    // })
     builder.addCase(loginAction.fulfilled, (state, action: PayloadAction<LoginResponseType>) => {
       console.log('loginAction.fulfilled :', action.payload)
       return {
@@ -42,13 +52,15 @@ const AuthSlice = createSlice({
         authorized: action.payload.status,
       }
     })
-    builder.addCase(loginAction.rejected, (state, action: PayloadAction<any>) => {
+    builder.addCase(loginAction.rejected, (state, action) => {
       console.log('loginAction.rejected :', action.payload)
       return {
         ...state,
-        authResponseData: action.payload
+        authResponseStatus: action.type,
+        authErrorMessage: action?.error.message || ''
       }
     })
+
   },
 })
 
