@@ -29,16 +29,18 @@ ApiClient.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
   console.log('error in interceptors response:', error);
-  toast.error(error.response.data.message, {
-    position: "bottom-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "colored",
-  });
+  if (error.response.status === 500) {
+    toast.error('Oops, server down, please try again later', {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  }
   return Promise.reject(error);
 });
 

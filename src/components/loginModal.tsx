@@ -1,7 +1,9 @@
 
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoEye, IoEyeOff } from 'react-icons/io5';
+import { toast } from "react-toastify";
+import { RegisterResponseStatus } from "../enums/authEnum";
 import { loginAction, registerAction } from "../redux/action/authAction";
 import { useAppDispatch, useAppSelector } from "../redux/store/hook";
 import { Utils } from "../utils/utlis";
@@ -17,7 +19,7 @@ const LoginModal = (props: LoginModalProp) => {
     onClose,
   } = props
   const dispatch = useAppDispatch()
-  const { authResponseData } = useAppSelector(state => state.auth)
+  const { authResponseData, registerResponseData } = useAppSelector(state => state.auth)
 
   type FormFillType = {
     name: string
@@ -38,52 +40,65 @@ const LoginModal = (props: LoginModalProp) => {
       setFormFilled({ name: '', email: '', password: '', confirmPassword: '' })
       setShowPassword(false)
       setShowConfirmPassword(false)
+      setPasswordErrorText('')
     }
-  }, [isOpen, dispatch])
+  }, [isOpen])
 
 
   useEffect(() => {
-  }, [authResponseData])
+  }, [authResponseData, registerResponseData])
 
   const handleShowPassword = () => setShowPassword(!showPassword);
   const handleShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
 
   function onUsernameChanged(e: React.ChangeEvent<HTMLInputElement>) {
-    // setUsername(e.target.value)
     setFormFilled({ ...formFilled, name: e.target.value })
   }
   function onEmailChanged(e: React.ChangeEvent<HTMLInputElement>) {
-    // setEmail(e.target.value)
     setFormFilled({ ...formFilled, email: e.target.value })
     const isValidEmail = Utils.validateEmail(formFilled.email)
     if (!isValidEmail)
       setEmailErrorText('Email is invalid, Please input valid email!')
     else setEmailErrorText('')
-    console.log(Utils.validateEmail(formFilled.email))
   }
   function onPasswordChanged(e: React.ChangeEvent<HTMLInputElement>) {
-    // setPassword(e.target.value)
     setFormFilled({ ...formFilled, password: e.target.value })
-
-    if (formFilled.confirmPassword !== formFilled.password && isRegister)
-      setPasswordErrorText('confirm password not matches with password')
-    else setPasswordErrorText('')
   }
   function onConfirmPasswordChanged(e: React.ChangeEvent<HTMLInputElement>) {
-    // setConfirmPassword(e.target.value)
     setFormFilled({ ...formFilled, confirmPassword: e.target.value })
-
   }
 
-  async function handleLoginSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmitForm(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (isRegister) {
-      return await dispatch(registerAction({
+      const request = await dispatch(registerAction({
         email: formFilled.email,
         name: formFilled.name,
         password: formFilled.password,
         password_confirmation: formFilled.confirmPassword
       }))
+      console.log('request register:', request)
+      if (request.type === RegisterResponseStatus.rejected) {
+        const RegisterErrorMessage = () => {
+          return (
+            <div>
+              <p className="text-xs">{request.payload.data.email[0]}</p>
+              <p className="text-xs">{request.payload.data.name[0]}</p>
+            </div>
+          )
+        }
+        toast.error(<RegisterErrorMessage />, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+      return request
     }
     else {
       return await dispatch(loginAction({ email: formFilled.email, password: formFilled.password }))
@@ -94,17 +109,16 @@ const LoginModal = (props: LoginModalProp) => {
     if (!isRegister)
       return formFilled.email === '' || formFilled.password === '' || emailErrorText !== ''
     else
-      return formFilled.email === '' || formFilled.password === '' || formFilled.name === '' || formFilled.confirmPassword !== '' || emailErrorText !== '' || formFilled.password !== formFilled.confirmPassword
+      return formFilled.email === '' || formFilled.password === '' || formFilled.name === '' || formFilled.confirmPassword === '' || emailErrorText !== '' || formFilled.password !== formFilled.confirmPassword
   }
 
   function handleChangeForm() {
-    setIsRegister(prev => !prev)
+    setIsRegister(!isRegister)
     setFormFilled({ name: '', email: '', password: '', confirmPassword: '' })
     setShowPassword(false)
     setShowConfirmPassword(false)
+    setPasswordErrorText('')
   }
-
-
 
   return (
     <Modal
@@ -115,8 +129,8 @@ const LoginModal = (props: LoginModalProp) => {
       <ModalContent className="relative">
         <>
           <ModalHeader className="flex flex-col gap-1"> {isRegister ? 'Sign in' : 'Log in'}</ModalHeader>
-          <form action="submit" onSubmit={handleLoginSubmit}>
-            <ModalBody>
+          <form action="submit" onSubmit={handleSubmitForm}>
+            <ModalBody >
               <div className="flex flex-col gap-3">
                 {!isRegister ?
                   <>
@@ -129,7 +143,6 @@ const LoginModal = (props: LoginModalProp) => {
                       placeholder="Enter your email"
                       variant="bordered"
                       labelPlacement="outside"
-                      isClearable
                       autoFocus
                     />
                     <Input
@@ -164,7 +177,6 @@ const LoginModal = (props: LoginModalProp) => {
                       placeholder="Enter your username"
                       variant="bordered"
                       labelPlacement="outside"
-                      isClearable
                       autoFocus
                     />
                     <Input
@@ -177,7 +189,6 @@ const LoginModal = (props: LoginModalProp) => {
                       type='text'
                       variant="bordered"
                       labelPlacement="outside"
-                      isClearable
                     />
                     <Input
                       isRequired={formFilled.password === ''}
@@ -224,7 +235,6 @@ const LoginModal = (props: LoginModalProp) => {
               </div>
               {emailErrorText !== '' && <p className="text-xs text-accountRed">*{emailErrorText}</p>}
               {passwordErrorText !== '' && <p className="text-xs text-accountRed">*{passwordErrorText}</p>}
-              {!authResponseData.status && <p className="text-accountRed text-xs">{authResponseData?.message}</p>}
               {isRegister ?
                 <p className="text-xs text-center ">i have an account, <span className="underline text-lightBlue cursor-pointer" onClick={handleChangeForm}>Login</span></p>
                 : <p className="text-xs text-center ">haven't an account ? <span className="underline text-lightBlue cursor-pointer" onClick={handleChangeForm}>Sign in</span></p>

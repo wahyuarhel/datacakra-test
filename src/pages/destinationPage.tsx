@@ -1,5 +1,5 @@
 import { Card, CardFooter } from '@nextui-org/card'
-import { CardBody, CardHeader, Pagination, divider } from '@nextui-org/react'
+import { CardBody, CardHeader, Pagination } from '@nextui-org/react'
 import { useEffect, useMemo } from 'react'
 import CirclePercentage from '../components/circlePercentage'
 import LoadingModal from '../components/loadingModal'
@@ -12,13 +12,12 @@ function DestinationPage() {
   const { destinationResponseData, destinationResponseStatus } = useAppSelector(state => state.destination)
 
   useEffect(() => {
-    async function getData() {
-      await dispatch(getAllDestination())
-    }
-    getData()
+    dispatch(getAllDestination())
   }, [])
 
   useMemo(() => destinationResponseData, [destinationResponseData])
+
+  console.log('destinationResponseData :', destinationResponseData)
 
   return (
     <>
@@ -28,7 +27,6 @@ function DestinationPage() {
           <div className='container mx-auto'>
             <p>{destinationResponseData.data.current_page}</p>
             <div>
-
             </div>
             {destinationResponseData.data.data.map((e, i) =>
               <Card key={i}

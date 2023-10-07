@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { LoginResponseStatus, RegisterResponseStatus } from "../../enums/authEnum"
-import { ErrorAuthType, LoginResponseType, RegisterResponseType } from "../../types/authType"
+import { LoginResponseType, RegisterResponseType } from "../../types/authType"
 import { loginAction, registerAction } from "../action/authAction"
 
 
@@ -11,7 +11,6 @@ interface AuthStateType {
   authErrorMessage: string,
   registerResponseData: RegisterResponseType
   registerResponseStatus: string
-  errorAuthResponse: ErrorAuthType
 }
 
 const initialState: AuthStateType = {
@@ -21,7 +20,6 @@ const initialState: AuthStateType = {
   authErrorMessage: '',
   registerResponseData: {} as RegisterResponseType,
   registerResponseStatus: RegisterResponseStatus.idle,
-  errorAuthResponse: {} as ErrorAuthType
 }
 
 const AuthSlice = createSlice({
@@ -31,9 +29,7 @@ const AuthSlice = createSlice({
     setAuthorized: (state, action) => {
       state.authorized = action.payload
     },
-    setErrorMessage: (state, action) => {
-      state.errorAuthResponse = action.payload
-    }
+
   },
   extraReducers: (builder) => {
     builder.addCase(loginAction.pending, (state, action) => {
@@ -82,14 +78,9 @@ const AuthSlice = createSlice({
     })
     builder.addCase(registerAction.rejected, (state, action) => {
       console.log('registerAction.rejected :', action.payload)
-      const error = {
-        statusError: action.type,
-        message: action.payload
-      }
       return {
         ...state,
         registerResponseStatus: action.type,
-        error
       }
     })
 
@@ -98,7 +89,6 @@ const AuthSlice = createSlice({
 
 export const {
   setAuthorized,
-  setErrorMessage,
 } = AuthSlice.actions
 
 export const authReducer = AuthSlice.reducer
