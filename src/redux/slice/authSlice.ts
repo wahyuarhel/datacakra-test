@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { LoginResponseStatus, RegisterResponseStatus } from "../../enums/authEnum"
-import { LoginResponseType, RegisterResponseType } from "../../types/authType"
+import { ErrorAuthType, LoginResponseType, RegisterResponseType } from "../../types/authType"
 import { loginAction, registerAction } from "../action/authAction"
 
 
@@ -8,9 +8,10 @@ interface AuthStateType {
   authResponseData: LoginResponseType
   authResponseStatus: string
   authorized: boolean
-  authErrorMessage: string
+  authErrorMessage: string,
   registerResponseData: RegisterResponseType
   registerResponseStatus: string
+  errorAuthResponse: ErrorAuthType
 }
 
 const initialState: AuthStateType = {
@@ -19,7 +20,8 @@ const initialState: AuthStateType = {
   authorized: false,
   authErrorMessage: '',
   registerResponseData: {} as RegisterResponseType,
-  registerResponseStatus: RegisterResponseStatus.idle
+  registerResponseStatus: RegisterResponseStatus.idle,
+  errorAuthResponse: {} as ErrorAuthType
 }
 
 const AuthSlice = createSlice({
@@ -30,11 +32,12 @@ const AuthSlice = createSlice({
       state.authorized = action.payload
     },
     setErrorMessage: (state, action) => {
-      state.authErrorMessage = action.payload
+      state.errorAuthResponse = action.payload
     }
   },
   extraReducers: (builder) => {
     builder.addCase(loginAction.pending, (state, action) => {
+      console.log('loginAction.pending :', action)
       return {
         ...state,
         authResponseStatus: action.type
@@ -51,12 +54,17 @@ const AuthSlice = createSlice({
     })
     builder.addCase(loginAction.rejected, (state, action) => {
       console.log('loginAction.rejected :', action.payload)
+      const error = {
+        statusError: action.type,
+        message: action.payload
+      }
       return {
         ...state,
         authResponseStatus: action.type,
-        authErrorMessage: action?.error.message || ''
+        error
       }
     })
+
 
     builder.addCase(registerAction.pending, (state, action) => {
       return {
@@ -74,10 +82,14 @@ const AuthSlice = createSlice({
     })
     builder.addCase(registerAction.rejected, (state, action) => {
       console.log('registerAction.rejected :', action.payload)
+      const error = {
+        statusError: action.type,
+        message: action.payload
+      }
       return {
         ...state,
         registerResponseStatus: action.type,
-        authErrorMessage: action?.error.message || ''
+        error
       }
     })
 
@@ -86,7 +98,7 @@ const AuthSlice = createSlice({
 
 export const {
   setAuthorized,
-  setErrorMessage
+  setErrorMessage,
 } = AuthSlice.actions
 
 export const authReducer = AuthSlice.reducer

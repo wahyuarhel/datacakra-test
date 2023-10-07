@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { IoEye, IoEyeOff } from 'react-icons/io5';
 import { loginAction, registerAction } from "../redux/action/authAction";
 import { useAppDispatch, useAppSelector } from "../redux/store/hook";
+import { Utils } from "../utils/utlis";
 
 interface LoginModalProp {
   isOpen: boolean
@@ -25,6 +26,8 @@ const LoginModal = (props: LoginModalProp) => {
     confirmPassword: string
   }
   const [formFilled, setFormFilled] = useState<FormFillType>({} as FormFillType)
+  const [emailErrorText, setEmailErrorText] = useState<string>('')
+  const [passwordErrorText, setPasswordErrorText] = useState<string>('')
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
   const [isRegister, setIsRegister] = useState<boolean>(false)
@@ -52,10 +55,19 @@ const LoginModal = (props: LoginModalProp) => {
   function onEmailChanged(e: React.ChangeEvent<HTMLInputElement>) {
     // setEmail(e.target.value)
     setFormFilled({ ...formFilled, email: e.target.value })
+    const isValidEmail = Utils.validateEmail(formFilled.email)
+    if (!isValidEmail)
+      setEmailErrorText('Email is invalid, Please input valid email!')
+    else setEmailErrorText('')
+    console.log(Utils.validateEmail(formFilled.email))
   }
   function onPasswordChanged(e: React.ChangeEvent<HTMLInputElement>) {
     // setPassword(e.target.value)
     setFormFilled({ ...formFilled, password: e.target.value })
+
+    if (formFilled.confirmPassword !== formFilled.password && isRegister)
+      setPasswordErrorText('confirm password not matches with password')
+    else setPasswordErrorText('')
   }
   function onConfirmPasswordChanged(e: React.ChangeEvent<HTMLInputElement>) {
     // setConfirmPassword(e.target.value)
@@ -78,6 +90,13 @@ const LoginModal = (props: LoginModalProp) => {
     }
   }
 
+  function handleDisabledButton() {
+    if (!isRegister)
+      return formFilled.email === '' || formFilled.password === '' || emailErrorText !== ''
+    else
+      return formFilled.email === '' || formFilled.password === '' || formFilled.name === '' || formFilled.confirmPassword !== '' || emailErrorText !== '' || formFilled.password !== formFilled.confirmPassword
+  }
+
   function handleChangeForm() {
     setIsRegister(prev => !prev)
     setFormFilled({ name: '', email: '', password: '', confirmPassword: '' })
@@ -86,8 +105,6 @@ const LoginModal = (props: LoginModalProp) => {
   }
 
 
-  const isFormLoginValid: boolean = formFilled.email !== '' && formFilled.password !== '';
-  const isFormRegisterValid: boolean = formFilled.email !== '' && formFilled.password !== '' && formFilled.name !== '' && formFilled.confirmPassword !== '';
 
   return (
     <Modal
@@ -205,6 +222,8 @@ const LoginModal = (props: LoginModalProp) => {
                   </>
                 }
               </div>
+              {emailErrorText !== '' && <p className="text-xs text-accountRed">*{emailErrorText}</p>}
+              {passwordErrorText !== '' && <p className="text-xs text-accountRed">*{passwordErrorText}</p>}
               {!authResponseData.status && <p className="text-accountRed text-xs">{authResponseData?.message}</p>}
               {isRegister ?
                 <p className="text-xs text-center ">i have an account, <span className="underline text-lightBlue cursor-pointer" onClick={handleChangeForm}>Login</span></p>
@@ -217,7 +236,7 @@ const LoginModal = (props: LoginModalProp) => {
               <Button
                 color="primary"
                 type="submit"
-                isDisabled={isRegister ? !isFormRegisterValid : !isFormLoginValid}
+                isDisabled={handleDisabledButton()}
                 className='bg-tosca'>
                 Sign in
               </Button>

@@ -5,10 +5,11 @@ import { LocalStorageKey } from '../enums/authEnum';
 import { setAuthorized } from '../redux/slice/authSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store/hook';
 import LoginModal from './loginModal';
+
 const NavbarApp = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { authResponseData, authorized } = useAppSelector(state => state.auth)
+  const { authResponseData, authorized, authErrorMessage, authResponseStatus } = useAppSelector(state => state.auth)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const authorization = localStorage.getItem(LocalStorageKey.token) !== null
 
@@ -16,7 +17,8 @@ const NavbarApp = () => {
     if (authorization) {
       dispatch(setAuthorized(true))
     }
-  }, [authorization, dispatch])
+  }, [])
+  // }, [authorization, dispatch])
 
   useEffect(() => {
     if (authResponseData.status) {
@@ -24,17 +26,16 @@ const NavbarApp = () => {
     }
   }, [authResponseData.status])
 
-
-  function handleModal() {
+  const handleModal = () => {
     setOpenModal((prev) => !prev)
   }
 
-  function handleLogOut() {
+  const handleLogOut = () => {
     localStorage.clear()
     navigate('/')
     window.location.reload()
   }
-  console.log('authorized:', authorized)
+
   return (
     <>
       <LoginModal isOpen={openModal} onClose={handleModal} />

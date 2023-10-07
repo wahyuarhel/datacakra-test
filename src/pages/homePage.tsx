@@ -1,15 +1,17 @@
 import { Button } from '@nextui-org/react';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import LoadingModal from '../components/loadingModal';
 import { LoginResponseStatus, RegisterResponseStatus } from '../enums/authEnum';
 import { useAppSelector } from '../redux/store/hook';
 
 const HomePage = () => {
-  const { authResponseStatus, registerResponseStatus } = useAppSelector(state => state.auth)
+  const { authResponseStatus, registerResponseStatus, authResponseData } = useAppSelector(state => state.auth)
   useEffect(() => {
 
 
   }, [authResponseStatus, registerResponseStatus])
+
+  useMemo(() => authResponseData, [authResponseData])
 
   const Section1 = () => {
     return (

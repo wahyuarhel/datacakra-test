@@ -1,3 +1,10 @@
+export type ErrorAuthType = {
+  errors: {
+    email?: string[],
+    password?: string[]
+  }
+  message: string
+}
 
 export type LoginResponseType = {
   data?: LoginDataType
