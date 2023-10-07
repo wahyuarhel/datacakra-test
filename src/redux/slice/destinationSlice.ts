@@ -29,7 +29,7 @@ const DestinationSlice = createSlice({
       }
     })
     builder.addCase(getAllDestination.fulfilled, (state, action) => {
-      console.log('getAllDestination.fulfilled :', { action })
+      console.log('getAllDestination.fulfilled :', action)
       return {
         ...state,
         destinationResponseStatus: action.type,

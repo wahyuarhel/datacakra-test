@@ -9,7 +9,7 @@ import LoginModal from './loginModal';
 const NavbarApp = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { authResponseData, authorized, authErrorMessage, authResponseStatus } = useAppSelector(state => state.auth)
+  const { authResponseData } = useAppSelector(state => state.auth)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const authorization = localStorage.getItem(LocalStorageKey.token) !== null
 
@@ -17,8 +17,7 @@ const NavbarApp = () => {
     if (authorization) {
       dispatch(setAuthorized(true))
     }
-  }, [])
-  // }, [authorization, dispatch])
+  }, [dispatch, authorization])
 
   useEffect(() => {
     if (authResponseData.status) {
