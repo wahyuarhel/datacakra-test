@@ -13,6 +13,7 @@ function DestinationPage() {
 
   useEffect(() => {
     dispatch(getAllDestination())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useMemo(() => destinationResponseData, [destinationResponseData])
