@@ -8,7 +8,6 @@ const HomePage = () => {
   const { authResponseStatus, registerResponseStatus, authResponseData } = useAppSelector(state => state.auth)
   useEffect(() => {
 
-
   }, [authResponseStatus, registerResponseStatus])
 
   useMemo(() => authResponseData, [authResponseData])

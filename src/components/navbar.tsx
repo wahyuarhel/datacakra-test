@@ -5,6 +5,7 @@ import { LocalStorageKey } from '../enums/authEnum';
 import { setAuthorized } from '../redux/slice/authSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store/hook';
 import LoginModal from './loginModal';
+import { userRole } from '../constant/userRole';
 
 const NavbarApp = () => {
   const navigate = useNavigate()
@@ -31,6 +32,9 @@ const NavbarApp = () => {
     setOpenModal((prev) => !prev)
     console.log('handleModal triggered')
   }
+  function closeModal() {
+    setIsMenuOpen(false)
+  }
 
   const handleLogOut = () => {
     localStorage.clear()
@@ -43,7 +47,6 @@ const NavbarApp = () => {
   const menuItems = [
     { label: "Destination", path: '/destination' },
     { label: "Review", path: '/review' },
-    { label: "Dashboard", path: '/dashboard' },
     { label: "Profile", path: '/profile' },
     { label: getUserData?.email, path: '#' },
     { label: "Log Out", path: '#' },
@@ -63,7 +66,7 @@ const NavbarApp = () => {
       >
         <NavbarContent>
           <NavbarBrand>
-            <Link to='/' className="font-bold text-inherit" onClick={() => setIsMenuOpen(false)}>Travel App</Link>
+            <Link to='/' className="font-bold text-inherit" onClick={closeModal}>Travel App</Link>
           </NavbarBrand>
         </NavbarContent>
 
@@ -87,26 +90,32 @@ const NavbarApp = () => {
               <UserAvatar />
             </NavbarItem>
             <NavbarMenuToggle
-              onChange={() => setIsMenuOpen(false)}
+              onChange={closeModal}
               className="sm:hidden"
             />
           </NavbarContent>
         }
         <NavbarMenu className='items-end'>
-          {menuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              {index === menuItems.length - 2 ?
-                <div
-                  className='flex flex-col items-end mt-1 text-xs'>
-                  <p className=''>Login as</p>
-                  <p>{item.label}</p>
-                </div> :
-                index === menuItems.length - 1 ?
-                  <p onClick={handleLogOut} className='cursor-pointer text-accountRed mt-12'>{item.label}</p>
-                  : <Link to={item.path} onClick={() => setIsMenuOpen(false)}>{item.label}</Link>
-              }
-            </NavbarMenuItem>
-          ))}
+          {userRole.superAdmin ?
+            <div className='flex flex-col gap-3 items-end'>
+              <Link to='/dashboard' onClick={closeModal} className='' >Dashboard</Link>
+              <Link to='#' className='text-accountRed' onClick={handleLogOut}>Log Out</Link>
+            </div>
+            :
+            menuItems.map((item, index) => (
+              <NavbarMenuItem key={`${item}-${index}`}>
+                {index === menuItems.length - 2 ?
+                  <div
+                    className='flex flex-col items-end mt-1 text-xs'>
+                    <p className=''>Login as</p>
+                    <p>{item.label}</p>
+                  </div> :
+                  index === menuItems.length - 1 ?
+                    <p onClick={handleLogOut} className='cursor-pointer text-accountRed mt-12'>{item.label}</p>
+                    : <Link to={item.path} onClick={closeModal}>{item.label}</Link>
+                }
+              </NavbarMenuItem>
+            ))}
         </NavbarMenu>
       </Navbar>
     </>

@@ -9,9 +9,11 @@ import ProfilePage from '../pages/profilePage'
 import DestinationDetailsPage from '../pages/destinationDetailsPage'
 import DashboardPage from '../pages/dashboardPage'
 import ReviewPage from '../pages/reviewPage'
+import { userRole } from '../constant/userRole'
 
 function RouteApp() {
   const authorized = localStorage.getItem(LocalStorageKey.token) !== null
+
 
   return (
     <>
@@ -22,13 +24,16 @@ function RouteApp() {
           <Route path='*' element={<ErrorPage />} />
           {authorized &&
             <>
+              {(userRole.superAdmin || userRole.admin) &&
+                <Route path='/dashboard' element={<DashboardPage />} />
+              }
               <Route path='/profile' element={<ProfilePage />} />
-              <Route path='/dashboard' element={<DashboardPage />} />
               <Route path='/review' element={<ReviewPage />} />
               <Route path='/destination' element={<DestinationPage />}>
                 <Route path=':id' element={<DestinationDetailsPage />} />
               </Route>
             </>
+
           }
         </Routes>
       </div>
