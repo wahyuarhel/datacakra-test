@@ -10,7 +10,7 @@ interface AuthStateType {
   authorized: boolean
   authErrorMessage: string,
   registerResponseData: RegisterResponseType
-  registerResponseStatus: string
+  registerResponseStatus: string,
 }
 
 const initialState: AuthStateType = {

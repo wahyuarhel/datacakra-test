@@ -7,6 +7,8 @@ import ErrorPage from '../pages/errorPage'
 import HomePage from '../pages/homePage'
 import ProfilePage from '../pages/profilePage'
 import DestinationDetailsPage from '../pages/destinationDetailsPage'
+import DashboardPage from '../pages/dashboardPage'
+import ReviewPage from '../pages/reviewPage'
 
 function RouteApp() {
   const authorized = localStorage.getItem(LocalStorageKey.token) !== null
@@ -14,13 +16,15 @@ function RouteApp() {
   return (
     <>
       <NavbarApp />
-      <div className='pt-[64px] min-h-[calc(100vh-64px)] '>
+      <div className='min-h-[calc(100vh-64px)] '>
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='*' element={<ErrorPage />} />
           {authorized &&
             <>
               <Route path='/profile' element={<ProfilePage />} />
+              <Route path='/dashboard' element={<DashboardPage />} />
+              <Route path='/review' element={<ReviewPage />} />
               <Route path='/destination' element={<DestinationPage />}>
                 <Route path=':id' element={<DestinationDetailsPage />} />
               </Route>

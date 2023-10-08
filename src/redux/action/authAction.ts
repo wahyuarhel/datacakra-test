@@ -61,6 +61,7 @@ export const registerAction = createAsyncThunk(
           progress: undefined,
           theme: "colored",
         });
+        setTimeout(() => window.location.reload(), 3000)
         return response.data;
       }
     } catch (error: any) {

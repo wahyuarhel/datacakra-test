@@ -8,13 +8,13 @@ function validateEmail(email: string) {
 type TruncateType = {
   text: string
   longText: number
-  start: number
+  start?: number
 }
 function truncateText(props: TruncateType) {
   const {
     text,
     longText,
-    start,
+    start = 0,
   } = props
   return text?.length > longText ? text.substring(start, longText) + "..." : text;
 }
