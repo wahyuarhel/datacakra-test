@@ -33,14 +33,12 @@ const AuthSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loginAction.pending, (state, action) => {
-      console.log('loginAction.pending :', action)
       return {
         ...state,
         authResponseStatus: action.type
       }
     })
     builder.addCase(loginAction.fulfilled, (state, action) => {
-      console.log('loginAction.fulfilled :', action.payload)
       return {
         ...state,
         authResponseStatus: action.type,
@@ -49,7 +47,6 @@ const AuthSlice = createSlice({
       }
     })
     builder.addCase(loginAction.rejected, (state, action) => {
-      console.log('loginAction.rejected :', action.payload)
       const error = {
         statusError: action.type,
         message: action.payload
@@ -69,7 +66,6 @@ const AuthSlice = createSlice({
       }
     })
     builder.addCase(registerAction.fulfilled, (state, action) => {
-      console.log('registerAction.fulfilled :', action.payload)
       return {
         ...state,
         registerResponseStatus: action.type,
@@ -77,7 +73,6 @@ const AuthSlice = createSlice({
       }
     })
     builder.addCase(registerAction.rejected, (state, action) => {
-      console.log('registerAction.rejected :', action.payload)
       return {
         ...state,
         registerResponseStatus: action.type,

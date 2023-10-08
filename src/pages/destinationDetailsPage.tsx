@@ -16,7 +16,6 @@ const DestinationDetailsPage = () => {
   useMemo(() => destinationDetailResponseData, [destinationDetailResponseData])
 
 
-  console.log('destinationDetailResponseData :', destinationDetailResponseData)
 
   if (destinationDetailResponseStatus === DestinationDetailResponseStatus.pending) {
     return <LoadingModal isOpen={destinationDetailResponseStatus === DestinationDetailResponseStatus.pending} />

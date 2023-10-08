@@ -17,18 +17,14 @@ const ApiClient: AxiosInstance = axios.create({
 
 
 ApiClient.interceptors.request.use(function (request) {
-  console.log('config interceptors :', request);
   return request;
 }, function (error) {
-  console.log('error in interceptors request:', error);
   return Promise.reject(error);
 });
 
 ApiClient.interceptors.response.use(function (response) {
-  console.log('response interceptor :', response);
   return response;
 }, function (error) {
-  console.log('error in interceptors response:', error);
   if (error.response.status === 500) {
     toast.error('Oops, server down, please try again later', {
       position: "bottom-right",

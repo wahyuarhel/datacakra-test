@@ -26,14 +26,12 @@ const DestinationSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllDestination.pending, (state, action) => {
-      console.log('getAllDestination.pending :', action)
       return {
         ...state,
         destinationResponseStatus: action.type
       }
     })
     builder.addCase(getAllDestination.fulfilled, (state, action) => {
-      console.log('getAllDestination.fulfilled :', action)
       return {
         ...state,
         destinationResponseStatus: action.type,
@@ -41,21 +39,18 @@ const DestinationSlice = createSlice({
       }
     })
     builder.addCase(getAllDestination.rejected, (state, action) => {
-      console.log('getAllDestination.rejected :', action)
       return {
         ...state,
         destinationResponseStatus: action.type
       }
     })
     builder.addCase(getDestinationDetailById.pending, (state, action) => {
-      console.log('getDestinationDetailById.pending :', action)
       return {
         ...state,
         destinationDetailResponseStatus: action.type
       }
     })
     builder.addCase(getDestinationDetailById.fulfilled, (state, action) => {
-      console.log('getDestinationDetailById.fulfilled :', action)
       return {
         ...state,
         destinationDetailResponseStatus: action.type,
@@ -63,7 +58,6 @@ const DestinationSlice = createSlice({
       }
     })
     builder.addCase(getDestinationDetailById.rejected, (state, action) => {
-      console.log('getDestinationDetailById.rejected :', action)
       return {
         ...state,
         destinationDetailResponseStatus: action.type

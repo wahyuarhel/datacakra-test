@@ -27,7 +27,6 @@ export const getAllDestination = createAsyncThunk(
       }
       else {
         const elseError = rejectWithValue(error)
-        console.log("error outside axiosError:", elseError)
         return elseError
       }
     }
@@ -47,7 +46,6 @@ export const getDestinationDetailById = createAsyncThunk(
       }
       else {
         const elseError = rejectWithValue(error)
-        console.log("error outside axiosError:", elseError)
         return elseError
       }
     }

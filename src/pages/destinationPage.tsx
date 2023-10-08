@@ -26,7 +26,6 @@ function DestinationPage() {
   }
 
   function getDestinationDetail(destinationId: number) {
-    console.log('getDestinationDetail:', destinationId)
     navigate(`/destination/${destinationId}`, { state: destinationId })
   }
 

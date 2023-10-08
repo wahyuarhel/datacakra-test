@@ -31,7 +31,6 @@ const NavbarApp = () => {
 
   const handleModal = () => {
     setOpenModal((prev) => !prev)
-    console.log('handleModal triggered')
   }
   function closeModal() {
     setIsMenuOpen(false)

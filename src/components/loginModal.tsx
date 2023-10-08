@@ -75,7 +75,6 @@ const LoginModal = (props: LoginModalProp) => {
         password: formFilled.password,
         password_confirmation: formFilled.confirmPassword
       }))
-      console.log('request register:', request)
       return request
     }
     else {

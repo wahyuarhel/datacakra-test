@@ -49,7 +49,6 @@ export const registerAction = createAsyncThunk(
   async (registerParams: RegisterRequestType, { rejectWithValue }) => {
     try {
       const response = await ApiClient.post(`/register`, registerParams);
-      console.log('response registerAction :', response)
       if (response.status === 201) {
         toast.success(response.data.message + ', login to see our destination :)', {
           position: "bottom-right",
@@ -78,7 +77,6 @@ export const registerAction = createAsyncThunk(
           theme: "colored",
         });
       }
-      console.log('error on catch block:', err.response)
       return rejectWithValue(err.response?.data)
     }
   }
