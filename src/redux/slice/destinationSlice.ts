@@ -1,20 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { DestinationResponseType } from "../../types/destinationType";
+import { DestinationDetailResponseType, DestinationResponseType } from "../../types/destinationType";
 import { DestinationResponseStatus } from "../../enums/destinationEnum";
-import { getAllDestination } from "../action/destinationAction";
+import { getAllDestination, getDestinationDetailById } from "../action/destinationAction";
 import { ErrorType } from "../../types/types";
 
 
 interface DestinationStateType {
   destinationResponseData: DestinationResponseType,
   destinationResponseStatus: string,
-  errorResponse: ErrorType
+  errorResponse: ErrorType,
+  destinationDetailResponseData: DestinationDetailResponseType,
+  destinationDetailResponseStatus: string
 }
 
 const initialState: DestinationStateType = {
   destinationResponseData: {} as DestinationResponseType,
   destinationResponseStatus: DestinationResponseStatus.idle,
-  errorResponse: {} as ErrorType
+  errorResponse: {} as ErrorType,
+  destinationDetailResponseData: {} as DestinationDetailResponseType,
+  destinationDetailResponseStatus: DestinationResponseStatus.idle
 }
 const DestinationSlice = createSlice({
   name: 'destination',
@@ -41,6 +45,28 @@ const DestinationSlice = createSlice({
       return {
         ...state,
         destinationResponseStatus: action.type
+      }
+    })
+    builder.addCase(getDestinationDetailById.pending, (state, action) => {
+      console.log('getDestinationDetailById.pending :', action)
+      return {
+        ...state,
+        destinationDetailResponseStatus: action.type
+      }
+    })
+    builder.addCase(getDestinationDetailById.fulfilled, (state, action) => {
+      console.log('getDestinationDetailById.fulfilled :', action)
+      return {
+        ...state,
+        destinationDetailResponseStatus: action.type,
+        destinationDetailResponseData: action.payload
+      }
+    })
+    builder.addCase(getDestinationDetailById.rejected, (state, action) => {
+      console.log('getDestinationDetailById.rejected :', action)
+      return {
+        ...state,
+        destinationDetailResponseStatus: action.type
       }
     })
   },

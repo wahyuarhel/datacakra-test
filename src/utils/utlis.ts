@@ -18,9 +18,11 @@ function truncateText(props: TruncateType) {
   } = props
   return text?.length > longText ? text.substring(start, longText) + "..." : text;
 }
+const joinTextWithChar = (text: string) => text.toLowerCase().split(' ').join('-')
 
 
 export const Utils = {
   validateEmail,
-  truncateText
+  truncateText,
+  joinTextWithChar
 }

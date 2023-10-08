@@ -29,9 +29,8 @@ function RouteApp() {
               }
               <Route path='/profile' element={<ProfilePage />} />
               <Route path='/review' element={<ReviewPage />} />
-              <Route path='/destination' element={<DestinationPage />}>
-                <Route path=':id' element={<DestinationDetailsPage />} />
-              </Route>
+              <Route path='/destination' element={<DestinationPage />} />
+              <Route path='/destination/:id' element={<DestinationDetailsPage />} />
             </>
 
           }

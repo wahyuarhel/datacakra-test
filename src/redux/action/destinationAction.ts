@@ -33,3 +33,23 @@ export const getAllDestination = createAsyncThunk(
     }
   }
 );
+export const getDestinationDetailById = createAsyncThunk(
+  'getDestinationDetailById',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await ApiClient.get(`/destination/${id}`);
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data)
+      }
+      else {
+        const elseError = rejectWithValue(error)
+        console.log("error outside axiosError:", elseError)
+        return elseError
+      }
+    }
+  }
+);

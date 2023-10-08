@@ -1,11 +1,11 @@
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { userRole } from '../constant/userRole';
 import { LocalStorageKey } from '../enums/authEnum';
 import { setAuthorized } from '../redux/slice/authSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store/hook';
 import LoginModal from './loginModal';
-import { userRole } from '../constant/userRole';
 
 const NavbarApp = () => {
   const navigate = useNavigate()
@@ -15,6 +15,7 @@ const NavbarApp = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const authorization = localStorage.getItem(LocalStorageKey.token) !== null
   const getUserData = JSON.parse(localStorage.getItem(LocalStorageKey.userData) as string)
+
 
   useEffect(() => {
     if (authorization) {

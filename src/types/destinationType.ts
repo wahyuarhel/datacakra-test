@@ -47,3 +47,32 @@ export type DestinationLinkType = {
   label: string;
   active: boolean;
 }
+
+
+export interface DestinationDetailResponseType {
+  status: boolean;
+  message: string;
+  data: DataDestinationDetailType;
+}
+
+export interface DataDestinationDetailType {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  title: string;
+  description: string;
+  thumbnail: string;
+  created_by: number;
+  average_rating: number;
+  reviews: ReviewDestinationDetailType[];
+}
+
+export interface ReviewDestinationDetailType {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  description: string;
+  rating: number;
+  user_id: number;
+  destination_id: number;
+}
