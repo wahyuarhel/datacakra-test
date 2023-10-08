@@ -17,8 +17,10 @@ const CirclePercentage = (props: CirclePercentageProp) => {
         size='sm'
         valueLabel={
           <div className='flex'>
-            <p className='text-[12px]'>{rate}</p>
-            <p className='text-[7px] font-bold'>%</p>
+            <p className='text-[12px]'>{Math.floor(rate * 10)}</p>
+            {rate > 0 &&
+              <p className='text-[7px] font-bold'>%</p>
+            }
           </div>
         }
         showValueLabel={true}

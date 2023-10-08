@@ -12,6 +12,7 @@ const NavbarApp = () => {
   const { authResponseData } = useAppSelector(state => state.auth)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const authorization = localStorage.getItem(LocalStorageKey.token) !== null
+  const getUserData = JSON.parse(localStorage.getItem(LocalStorageKey.userData) as string)
 
   useEffect(() => {
     if (authorization) {
@@ -34,6 +35,7 @@ const NavbarApp = () => {
     navigate('/')
     window.location.reload()
   }
+
 
   return (
     <>
@@ -64,14 +66,15 @@ const NavbarApp = () => {
               </> : null
             }
             {!authorization ?
-              <p className='cursor-pointer' onClick={handleModal}>Sign in / Login</p>
+              <p className='cursor-pointer' onClick={handleModal}>Login / Sign In</p>
               :
-              <p className='cursor-pointer' onClick={handleLogOut}>Logout</p>
+              <p className='cursor-pointer' onClick={handleLogOut}>{getUserData.name} | Logout</p>
             }
           </div>
         </div>
       </div>
     </>
+
   )
 }
 

@@ -6,24 +6,19 @@ export type ErrorAuthType = {
   message: string
 }
 
+export type LoginRequestType = {
+  email: string,
+  password: string
+}
+
 export type LoginResponseType = {
   data?: LoginDataType
   status: boolean,
   message: string,
   errors?: AuthErrorType
 }
-export type LoginRequestType = {
-  email: string,
-  password: string
-}
-export type RegisterRequestType = {
-  name: string
-  email: string,
-  password: string
-  password_confirmation: string
-}
 
-type LoginUserDetailType = {
+export type UserDetailType = {
   id: number,
   name: string,
   email: string,
@@ -32,14 +27,21 @@ type LoginUserDetailType = {
   updated_at: Date
 }
 
-type LoginDataType = {
-  user: LoginUserDetailType
+export type LoginDataType = {
+  user: UserDetailType
   token: string
 }
 
-type AuthErrorType = {
+export type AuthErrorType = {
   email: string[]
   password: string[]
+}
+
+export type RegisterRequestType = {
+  name: string
+  email: string,
+  password: string
+  password_confirmation: string
 }
 
 export type RegisterResponseType = {

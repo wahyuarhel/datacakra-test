@@ -2,16 +2,21 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import ApiClient from "../../api/api";
 
+export type DestinationParamType = {
+  limit?: number | null
+  page?: number
+}
+const initialDestinationPageNumber: DestinationParamType = {
+  page: 1,
+  limit: null
+}
+
 export const getAllDestination = createAsyncThunk(
   'getAllDestination',
-  async (_, { rejectWithValue }) => {
+  async (destinationParams: DestinationParamType, { rejectWithValue }) => {
     try {
       const response = await ApiClient.get(`/destination`, {
-        params: {
-          id: 1,
-          limit: 1,
-          page: 1
-        }
+        params: destinationParams || initialDestinationPageNumber
       });
       if (response.status === 200) {
         return response.data;

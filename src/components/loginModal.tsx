@@ -78,26 +78,6 @@ const LoginModal = (props: LoginModalProp) => {
         password_confirmation: formFilled.confirmPassword
       }))
       console.log('request register:', request)
-      if (request.type === RegisterResponseStatus.rejected) {
-        const RegisterErrorMessage = () => {
-          return (
-            <div>
-              <p className="text-xs">{request.payload.data.email[0]}</p>
-              <p className="text-xs">{request.payload.data.name[0]}</p>
-            </div>
-          )
-        }
-        toast.error(<RegisterErrorMessage />, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-      }
       return request
     }
     else {

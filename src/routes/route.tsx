@@ -6,6 +6,7 @@ import DestinationPage from '../pages/destinationPage'
 import ErrorPage from '../pages/errorPage'
 import HomePage from '../pages/homePage'
 import ProfilePage from '../pages/profilePage'
+import DestinationDetailsPage from '../pages/destinationDetailsPage'
 
 function RouteApp() {
   const authorized = localStorage.getItem(LocalStorageKey.token) !== null
@@ -20,7 +21,9 @@ function RouteApp() {
           {authorized &&
             <>
               <Route path='/profile' element={<ProfilePage />} />
-              <Route path='/destination' element={<DestinationPage />} />
+              <Route path='/destination' element={<DestinationPage />}>
+                <Route path=':id' element={<DestinationDetailsPage />} />
+              </Route>
             </>
           }
         </Routes>

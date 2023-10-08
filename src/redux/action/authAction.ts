@@ -13,6 +13,7 @@ export const loginAction = createAsyncThunk(
       const response = await ApiClient.post(`/login`, authParam);
       if (response.status === 200) {
         localStorage.setItem(LocalStorageKey.token, response.data.data.token)
+        localStorage.setItem(LocalStorageKey.userData, JSON.stringify(response.data.data.user))
         toast.success(response.data.message, {
           position: "bottom-right",
           autoClose: 3000,
@@ -25,16 +26,18 @@ export const loginAction = createAsyncThunk(
         return response.data;
       }
     } catch (error: any) {
-      toast.error(error.response?.data.message, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      if (error.response.status !== 500) {
+        toast.error(error.response?.data.message, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
       let err = (error as AxiosError)
       return rejectWithValue(err.response?.data)
     }
@@ -60,8 +63,20 @@ export const registerAction = createAsyncThunk(
         });
         return response.data;
       }
-    } catch (error) {
+    } catch (error: any) {
       let err = (error as AxiosError)
+      if (error.response.status !== 500) {
+        toast.error(error.response.data.message, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
       console.log('error on catch block:', err.response)
       return rejectWithValue(err.response?.data)
     }

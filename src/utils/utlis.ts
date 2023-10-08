@@ -5,7 +5,22 @@ function validateEmail(email: string) {
   return emailRegex.test(email);
 }
 
+type TruncateType = {
+  text: string
+  longText: number
+  start: number
+}
+function truncateText(props: TruncateType) {
+  const {
+    text,
+    longText,
+    start,
+  } = props
+  return text?.length > longText ? text.substring(start, longText) + "..." : text;
+}
+
 
 export const Utils = {
   validateEmail,
+  truncateText
 }

@@ -7,6 +7,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: '500px'
+      },
+      container: {
+        center: true,
+      },
       colors: {
         navy: 'rgb(4, 54, 74)',
         teal: 'rgb(23, 107, 135)',

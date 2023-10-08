@@ -14,5 +14,8 @@ export enum RegisterResponseStatus {
 export enum LocalStorageKey {
   token = 'token',
   authorized = 'authorized',
-  destinationData = 'destinationData'
+  username = 'username',
+  email = 'email',
+  userId = 'userId',
+  userData = 'userData'
 }
