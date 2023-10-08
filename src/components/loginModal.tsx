@@ -2,8 +2,6 @@
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { IoEye, IoEyeOff } from 'react-icons/io5';
-import { toast } from "react-toastify";
-import { RegisterResponseStatus } from "../enums/authEnum";
 import { loginAction, registerAction } from "../redux/action/authAction";
 import { useAppDispatch, useAppSelector } from "../redux/store/hook";
 import { Utils } from "../utils/utlis";
