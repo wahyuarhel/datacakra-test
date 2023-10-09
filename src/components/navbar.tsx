@@ -134,9 +134,10 @@ const NavbarApp = () => {
             <p className="font-bold">{getUserData?.email}</p>
           </DropdownItem>
           <DropdownItem key="settings" >
-            Profile
+            <Link to='/profile'>Profile</Link>
+
           </DropdownItem>
-          <DropdownItem key="logout" color="danger" >
+          <DropdownItem key="logout" color="danger" onClick={handleLogOut}>
             Log Out
           </DropdownItem>
         </DropdownMenu>
